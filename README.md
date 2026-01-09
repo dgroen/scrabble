@@ -83,6 +83,40 @@ print(f"Scores: {state['scores']}")
 python example.py
 ```
 
+### Using `uv` (preferred virtualenv manager)
+
+If you use `uv` to manage your project virtual environments you can prefer it over the local `.venv` workflow.
+
+- Install `uv` globally (see `uv` docs for exact package name and installation instructions).
+- Typical workflow (commands vary by `uv` version):
+    - create or update the project virtualenv and lock: `uv ...` (your uv command to create a project env and produce `uv.lock`)
+    - install dependencies into the uv-managed environment: `uv install` (or the corresponding uv subcommand)
+    - run commands inside the uv-managed env: `uv run python example.py` or `uv run tox -e py`
+
+The project also includes a `Makefile` that will detect `uv` on your PATH. If `uv` is present the Makefile will print guidance for using `uv`; otherwise it will create a local `.venv` and run fallbacks such as `pip install -e '.[dev]'` and `.venv/bin/python example.py`.
+
+Examples with the Makefile (fallback path uses `.venv`):
+
+```bash
+# create a venv (or follow the printed uv instructions if uv is available)
+make venv
+
+# install deps (uses uv when present, otherwise installs into .venv)
+make install
+
+# run the small example
+make run-example
+
+# run the longer demo
+make run-demo
+
+# run tests with tox
+make tox
+```
+
+If you prefer full `uv` automation, run the appropriate `uv` commands directly — `uv` will manage `uv.lock` and the environment for you.
+
+
 ## Game Components / Spel Componenten
 
 ### Board (Bord)
