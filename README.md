@@ -116,6 +116,27 @@ make tox
 
 If you prefer full `uv` automation, run the appropriate `uv` commands directly — `uv` will manage `uv.lock` and the environment for you.
 
+### Convenience scripts
+
+This repository includes two small helpers under `scripts/`:
+
+- `scripts/install.sh` — will run `uv install` if `uv` is present; otherwise it will create `.venv` and install dev dependencies into it.
+- `scripts/run.sh` — runs commands inside `uv` if available, otherwise activates `.venv` and runs the given command. Usage:
+
+```bash
+# install dependencies (uv preferred)
+./scripts/install.sh
+
+# run example using the detected env
+./scripts/run.sh python example.py
+./scripts/run.sh python example_game_session.py
+
+# run tests
+./scripts/run.sh tox -e py
+```
+
+These scripts are POSIX shell scripts and are safe to call from CI — they make the project environment usage consistent whether you use `uv` or a `.venv` fallback.
+
 
 ## Game Components / Spel Componenten
 
