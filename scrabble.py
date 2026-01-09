@@ -51,7 +51,15 @@ class ScrabbleGame:
                 'invalid_word': 'Invalid word',
                 'quit': 'Quit',
                 'pass': 'Pass',
-                'tiles_left': 'Tiles left in bag'
+                'tiles_left': 'Tiles left in bag',
+                'your_tiles': 'Your tiles',
+                'enter_position': 'Enter position (row col)',
+                'enter_direction': 'Enter direction (H for horizontal, V for vertical)',
+                'invalid_move': 'Invalid move',
+                'word_placed': 'Word placed successfully',
+                'new_game': 'New Game',
+                'continue_game': 'Continue',
+                'menu': 'Menu'
             }
     
     def _get_letter_distribution(self) -> Dict[str, Tuple[int, int]]:
@@ -198,7 +206,17 @@ def main():
     
     # Add players
     print(f"\n{game.get_text('start_game')}")
-    num_players = int(input("Enter number of players (2-4): "))
+    
+    # Get number of players with validation
+    while True:
+        try:
+            num_players = int(input("Enter number of players (2-4): "))
+            if 2 <= num_players <= 4:
+                break
+            else:
+                print("Please enter a number between 2 and 4.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
     
     for i in range(num_players):
         name = input(f"Enter name for {game.get_text('player')} {i + 1}: ")
