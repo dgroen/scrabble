@@ -1,34 +1,35 @@
 """Tests for the Scrabble game components."""
 
 import pytest
-from scrabble.tile import Tile, TileBag
+
 from scrabble.board import Board
-from scrabble.player import Player
-from scrabble.validator import WordValidator
 from scrabble.game import Game
+from scrabble.player import Player
+from scrabble.tile import Tile, TileBag
+from scrabble.validator import WordValidator
 
 
 class TestTile:
     """Test Tile class."""
 
     def test_tile_creation(self):
-        tile = Tile('A', 1)
-        assert tile.letter == 'A'
+        tile = Tile("A", 1)
+        assert tile.letter == "A"
         assert tile.points == 1
         assert not tile.is_blank
 
     def test_blank_tile(self):
-        tile = Tile('*', 0)
+        tile = Tile("*", 0)
         assert tile.is_blank
         assert tile.points == 0
-        tile.set_blank_letter('E')
-        assert tile.blank_letter == 'E'
-        assert tile.get_display_letter() == 'E'
+        tile.set_blank_letter("E")
+        assert tile.blank_letter == "E"
+        assert tile.get_display_letter() == "E"
 
     def test_tile_equality(self):
-        tile1 = Tile('A', 1)
-        tile2 = Tile('A', 1)
-        tile3 = Tile('B', 3)
+        tile1 = Tile("A", 1)
+        tile2 = Tile("A", 1)
+        tile3 = Tile("B", 3)
         assert tile1 == tile2
         assert tile1 != tile3
 
@@ -77,21 +78,21 @@ class TestBoard:
 
     def test_place_tile(self):
         board = Board()
-        tile = Tile('A', 1)
+        tile = Tile("A", 1)
         assert board.place_tile(7, 7, tile)
         assert board.get_tile(7, 7) == tile
         assert not board.is_board_empty()
 
     def test_cannot_place_on_occupied(self):
         board = Board()
-        tile1 = Tile('A', 1)
-        tile2 = Tile('B', 3)
+        tile1 = Tile("A", 1)
+        tile2 = Tile("B", 3)
         board.place_tile(7, 7, tile1)
         assert not board.place_tile(7, 7, tile2)
 
     def test_remove_tile(self):
         board = Board()
-        tile = Tile('A', 1)
+        tile = Tile("A", 1)
         board.place_tile(7, 7, tile)
         removed = board.remove_tile(7, 7)
         assert removed == tile
@@ -112,20 +113,20 @@ class TestBoard:
 
     def test_get_word_horizontal(self):
         board = Board()
-        board.place_tile(7, 7, Tile('C', 3))
-        board.place_tile(7, 8, Tile('A', 1))
-        board.place_tile(7, 9, Tile('T', 2))
-        word, positions = board.get_word_at(7, 7, 'H')
-        assert word == 'CAT'
+        board.place_tile(7, 7, Tile("C", 3))
+        board.place_tile(7, 8, Tile("A", 1))
+        board.place_tile(7, 9, Tile("T", 2))
+        word, positions = board.get_word_at(7, 7, "H")
+        assert word == "CAT"
         assert len(positions) == 3
 
     def test_get_word_vertical(self):
         board = Board()
-        board.place_tile(7, 7, Tile('D', 1))
-        board.place_tile(8, 7, Tile('O', 1))
-        board.place_tile(9, 7, Tile('G', 3))
-        word, positions = board.get_word_at(7, 7, 'V')
-        assert word == 'DOG'
+        board.place_tile(7, 7, Tile("D", 1))
+        board.place_tile(8, 7, Tile("O", 1))
+        board.place_tile(9, 7, Tile("G", 3))
+        word, positions = board.get_word_at(7, 7, "V")
+        assert word == "DOG"
         assert len(positions) == 3
 
 
@@ -141,13 +142,13 @@ class TestPlayer:
 
     def test_add_tiles(self):
         player = Player("Bob", 1)
-        tiles = [Tile('A', 1), Tile('B', 3)]
+        tiles = [Tile("A", 1), Tile("B", 3)]
         player.add_tiles(tiles)
         assert player.tile_count() == 2
 
     def test_remove_tile(self):
         player = Player("Carol", 2)
-        tile = Tile('A', 1)
+        tile = Tile("A", 1)
         player.add_tiles([tile])
         assert player.remove_tile(tile)
         assert player.tile_count() == 0
@@ -223,7 +224,7 @@ class TestGame:
     def test_first_word_must_cover_center(self):
         game = Game(["Alice", "Bob"])
         player = game.get_current_player()
-        
+
         # Try to place word not covering center
         tiles = player.rack[:3]
         placement = [(0, 0, tiles[0]), (0, 1, tiles[1]), (0, 2, tiles[2])]
@@ -234,11 +235,11 @@ class TestGame:
     def test_valid_first_word(self):
         game = Game(["Alice", "Bob"])
         player = game.get_current_player()
-        
+
         # Create tiles for a valid word
-        tiles = [Tile('K', 3), Tile('A', 1), Tile('T', 2)]
+        tiles = [Tile("K", 3), Tile("A", 1), Tile("T", 2)]
         player.rack = tiles
-        
+
         # Place word covering center
         placement = [(7, 6, tiles[0]), (7, 7, tiles[1]), (7, 8, tiles[2])]
         success, message, score = game.place_word(placement)
@@ -250,7 +251,7 @@ class TestGame:
         player = game.get_current_player()
         tiles_to_exchange = player.rack[:2]
         original_count = player.tile_count()
-        
+
         success, message = game.exchange_tiles(tiles_to_exchange)
         assert success
         assert player.tile_count() == original_count
@@ -275,24 +276,33 @@ class TestGame:
     def test_bingo_bonus(self):
         game = Game(["Alice", "Bob"])
         player = game.get_current_player()
-        
+
         # Create 7-letter word
         tiles = [
-            Tile('S', 2), Tile('P', 3), Tile('E', 1), Tile('L', 3),
-            Tile('E', 1), Tile('R', 2), Tile('S', 2)
+            Tile("S", 2),
+            Tile("P", 3),
+            Tile("E", 1),
+            Tile("L", 3),
+            Tile("E", 1),
+            Tile("R", 2),
+            Tile("S", 2),
         ]
         player.rack = tiles
-        
+
         # Add the word to validator (SPELERS is Dutch for "players")
         game.validator.add_word("SPELERS")
-        
+
         # Place all 7 tiles
         placement = [
-            (7, 5, tiles[0]), (7, 6, tiles[1]), (7, 7, tiles[2]),
-            (7, 8, tiles[3]), (7, 9, tiles[4]), (7, 10, tiles[5]),
-            (7, 11, tiles[6])
+            (7, 5, tiles[0]),
+            (7, 6, tiles[1]),
+            (7, 7, tiles[2]),
+            (7, 8, tiles[3]),
+            (7, 9, tiles[4]),
+            (7, 10, tiles[5]),
+            (7, 11, tiles[6]),
         ]
-        
+
         success, message, score = game.place_word(placement)
         if success:
             # Should include 50-point bingo bonus

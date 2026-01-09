@@ -1,6 +1,6 @@
 """Setup file for the Scrabble game package."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -25,6 +25,12 @@ setup(
         "dev": [
             "pytest>=7.0",
             "pytest-cov>=4.0",
+            "tox>=4.0",
+            "black>=23.1",
+            "isort>=5.10",
+            "flake8>=5.0",
+            "mypy>=1.0",
+            "pre-commit>=3.0",
         ],
     },
 )

@@ -9,29 +9,50 @@ class Tile:
 
     # Dutch Scrabble letter distribution and scores
     LETTER_DISTRIBUTION = {
-        'A': (6, 1), 'B': (2, 3), 'C': (2, 5), 'D': (5, 1), 'E': (18, 1),
-        'F': (2, 4), 'G': (3, 3), 'H': (2, 4), 'I': (4, 1), 'J': (2, 4),
-        'K': (3, 3), 'L': (3, 3), 'M': (3, 3), 'N': (10, 1), 'O': (6, 1),
-        'P': (2, 3), 'Q': (1, 10), 'R': (5, 2), 'S': (5, 2), 'T': (5, 2),
-        'U': (3, 4), 'V': (2, 4), 'W': (2, 5), 'X': (1, 8), 'Y': (1, 8),
-        'Z': (2, 4), '*': (2, 0)  # * represents blank tiles
+        "A": (6, 1),
+        "B": (2, 3),
+        "C": (2, 5),
+        "D": (5, 1),
+        "E": (18, 1),
+        "F": (2, 4),
+        "G": (3, 3),
+        "H": (2, 4),
+        "I": (4, 1),
+        "J": (2, 4),
+        "K": (3, 3),
+        "L": (3, 3),
+        "M": (3, 3),
+        "N": (10, 1),
+        "O": (6, 1),
+        "P": (2, 3),
+        "Q": (1, 10),
+        "R": (5, 2),
+        "S": (5, 2),
+        "T": (5, 2),
+        "U": (3, 4),
+        "V": (2, 4),
+        "W": (2, 5),
+        "X": (1, 8),
+        "Y": (1, 8),
+        "Z": (2, 4),
+        "*": (2, 0),  # * represents blank tiles
     }
 
     def __init__(self, letter: str, points: int):
         """Initialize a tile with a letter and point value.
-        
+
         Args:
             letter: The letter on the tile (or '*' for blank)
             points: Point value of the tile
         """
         self.letter = letter.upper()
         self.points = points
-        self.is_blank = letter == '*'
+        self.is_blank = letter == "*"
         self.blank_letter = None  # For blank tiles, stores chosen letter
 
     def set_blank_letter(self, letter: str) -> None:
         """Set the letter for a blank tile.
-        
+
         Args:
             letter: The letter to use for the blank tile
         """
@@ -76,10 +97,10 @@ class TileBag:
 
     def draw(self, count: int = 1) -> List[Tile]:
         """Draw tiles from the bag.
-        
+
         Args:
             count: Number of tiles to draw
-            
+
         Returns:
             List of drawn tiles
         """
@@ -90,7 +111,7 @@ class TileBag:
 
     def draw_one(self) -> Optional[Tile]:
         """Draw a single tile from the bag.
-        
+
         Returns:
             A single tile or None if bag is empty
         """
@@ -100,7 +121,7 @@ class TileBag:
 
     def return_tiles(self, tiles: List[Tile]) -> None:
         """Return tiles to the bag and shuffle.
-        
+
         Args:
             tiles: List of tiles to return to the bag
         """
