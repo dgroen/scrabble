@@ -278,13 +278,13 @@ class TestGame:
         
         # Create 7-letter word
         tiles = [
-            Tile('S', 2), Tile('C', 5), Tile('R', 2), Tile('A', 1),
-            Tile('B', 3), Tile('B', 3), Tile('L', 3)
+            Tile('S', 2), Tile('P', 3), Tile('E', 1), Tile('L', 3),
+            Tile('E', 1), Tile('R', 2), Tile('S', 2)
         ]
         player.rack = tiles
         
-        # Add the word to validator
-        game.validator.add_word("SCRABBL")
+        # Add the word to validator (SPELERS is Dutch for "players")
+        game.validator.add_word("SPELERS")
         
         # Place all 7 tiles
         placement = [
