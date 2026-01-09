@@ -1,1 +1,9 @@
+# Web UI dependency
 Flask==3.0.0
+
+# Core dependencies
+# No external dependencies required for core functionality
+
+# Development dependencies
+pytest>=7.0
+pytest-cov>=4.0
