@@ -269,3 +269,17 @@ MIT License - see LICENSE file for details
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+<<<<<<< HEAD
+=======
+
+## Multi-Language Support Implementation
+
+The game now supports multiple languages through:
+- Language-specific translation files (`translations/en.json`, `nl.json`, `fi.json`)
+- Language-specific letter distributions
+- Localized interface text
+- Language selection at game start
+
+All players in a game session use the same language selected at the start.
+>>>>>>> origin/main
+>>>>>>> 2fe0871f860f9f8ada1aa5ef4afd4b79288421b0
