@@ -2,6 +2,9 @@
 
 import random
 from typing import List, Optional
+from typing import Dict, List, Optional, Tuple
+
+from scrabble.language import get_letter_distribution
 
 
 class Tile:
@@ -81,13 +84,21 @@ class TileBag:
 
     def __init__(self):
         """Initialize a tile bag with the standard Dutch Scrabble distribution."""
+    def __init__(self, language: str = "nl"):
+        """Initialize a tile bag with the distribution for the specified language.
+        
+        Args:
+            language: Language code ('en', 'nl', or 'fi'). Defaults to 'nl'.
+        """
+        self.language = language
+        self.letter_distribution = get_letter_distribution(language)
         self.tiles: List[Tile] = []
         self._initialize_tiles()
         self.shuffle()
 
     def _initialize_tiles(self) -> None:
-        """Create all tiles according to Dutch Scrabble distribution."""
-        for letter, (count, points) in Tile.LETTER_DISTRIBUTION.items():
+        """Create all tiles according to the language distribution."""
+        for letter, (count, points) in self.letter_distribution.items():
             for _ in range(count):
                 self.tiles.append(Tile(letter, points))
 
