@@ -1,42 +1,13 @@
 """Tile and TileBag classes for Scrabble game."""
 
 import random
-from typing import List, Optional
+from typing import Dict, List, Optional, Tuple
+
+from scrabble.language import get_letter_distribution
 
 
 class Tile:
     """Represents a Scrabble tile with a letter and point value."""
-
-    # Dutch Scrabble letter distribution and scores
-    LETTER_DISTRIBUTION = {
-        "A": (6, 1),
-        "B": (2, 3),
-        "C": (2, 5),
-        "D": (5, 1),
-        "E": (18, 1),
-        "F": (2, 4),
-        "G": (3, 3),
-        "H": (2, 4),
-        "I": (4, 1),
-        "J": (2, 4),
-        "K": (3, 3),
-        "L": (3, 3),
-        "M": (3, 3),
-        "N": (10, 1),
-        "O": (6, 1),
-        "P": (2, 3),
-        "Q": (1, 10),
-        "R": (5, 2),
-        "S": (5, 2),
-        "T": (5, 2),
-        "U": (3, 4),
-        "V": (2, 4),
-        "W": (2, 5),
-        "X": (1, 8),
-        "Y": (1, 8),
-        "Z": (2, 4),
-        "*": (2, 0),  # * represents blank tiles
-    }
 
     def __init__(self, letter: str, points: int):
         """Initialize a tile with a letter and point value.
@@ -79,15 +50,21 @@ class Tile:
 class TileBag:
     """Manages the bag of tiles for a Scrabble game."""
 
-    def __init__(self):
-        """Initialize a tile bag with the standard Dutch Scrabble distribution."""
+    def __init__(self, language: str = "nl"):
+        """Initialize a tile bag with the distribution for the specified language.
+        
+        Args:
+            language: Language code ('en', 'nl', or 'fi'). Defaults to 'nl'.
+        """
+        self.language = language
+        self.letter_distribution = get_letter_distribution(language)
         self.tiles: List[Tile] = []
         self._initialize_tiles()
         self.shuffle()
 
     def _initialize_tiles(self) -> None:
-        """Create all tiles according to Dutch Scrabble distribution."""
-        for letter, (count, points) in Tile.LETTER_DISTRIBUTION.items():
+        """Create all tiles according to the language distribution."""
+        for letter, (count, points) in self.letter_distribution.items():
             for _ in range(count):
                 self.tiles.append(Tile(letter, points))
 

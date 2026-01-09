@@ -3,6 +3,7 @@
 from typing import Dict, List, Optional, Tuple
 
 from scrabble.board import Board
+from scrabble.language import SUPPORTED_LANGUAGES, get_language_name, load_translations
 from scrabble.player import Player
 from scrabble.tile import Tile, TileBag
 from scrabble.validator import WordValidator
@@ -14,20 +15,33 @@ class Game:
     RACK_SIZE = 7
     BINGO_BONUS = 50  # Bonus for using all 7 tiles
 
-    def __init__(self, player_names: List[str], dictionary_file: Optional[str] = None):
+    def __init__(
+        self,
+        player_names: List[str],
+        dictionary_file: Optional[str] = None,
+        language: str = "nl",
+    ):
         """Initialize a new game.
 
         Args:
             player_names: List of player names
             dictionary_file: Optional path to dictionary file
+            language: Language code ('en', 'nl', or 'fi'). Defaults to 'nl'.
         """
         if len(player_names) < 2:
             raise ValueError("At least 2 players are required")
         if len(player_names) > 4:
             raise ValueError("Maximum 4 players allowed")
+        if language not in SUPPORTED_LANGUAGES:
+            raise ValueError(
+                f"Unsupported language: {language}. "
+                f"Choose from {SUPPORTED_LANGUAGES}"
+            )
 
+        self.language = language
+        self.translations = load_translations(language)
         self.board = Board()
-        self.tile_bag = TileBag()
+        self.tile_bag = TileBag(language)
         self.validator = WordValidator(dictionary_file)
         self.players = [Player(name, i) for i, name in enumerate(player_names)]
         self.current_player_index = 0
@@ -38,6 +52,17 @@ class Game:
         # Initialize player racks
         for player in self.players:
             player.add_tiles(self.tile_bag.draw(self.RACK_SIZE))
+
+    def get_text(self, key: str) -> str:
+        """Get translated text for a given key.
+        
+        Args:
+            key: Translation key
+            
+        Returns:
+            Translated text
+        """
+        return self.translations.get(key, key)
 
     def get_current_player(self) -> Player:
         """Get the current player.
